@@ -1,0 +1,29 @@
+{
+  "name": "abzagency",
+  "version": "1.0.0",
+  "description": "NodeJS Developer Test Assignment",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/hilore/abzAgency.git"
+  },
+  "author": "Mark Parker",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hilore/abzAgency/issues"
+  },
+  "homepage": "https://github.com/hilore/abzAgency#readme",
+  "dependencies": {
+    "express": "^4.19.2",
+    "sequelize": "^6.37.3",
+    "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.5",
+    "nodemon": "^3.1.0",
+    "typescript": "^5.4.5"
+  }
+}
