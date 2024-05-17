@@ -5,6 +5,7 @@ const DataGenerator = require("./services/DataGenerator.js");
 
 const express = require("express");
 const positionRouter = require("./routes/Position.js");
+const tokenRouter = require("./routes/Token.js");
 
 (async () => {
   await DataGenerator.generateDatabaseData();
@@ -14,6 +15,7 @@ const app = express();
 
 app.use(express.json());
 app.use(positionRouter);
+app.use(tokenRouter);
 
 const startApp = async() => {
   try {
