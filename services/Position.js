@@ -5,7 +5,7 @@ class Position {
   async getPositions() {
     try {
       const positions = await PositionModel.findAll();
-      if (!positions) {
+      if (!positions || positions.length == 0) {
         throw new Error("404:Positions not found");
       }
 
@@ -14,6 +14,9 @@ class Position {
 
       return positionsData;
     } catch (err) {
+      if (err.message.includes("404")) {
+        throw new Error("404:Positions not found");
+      }
       console.error(err.message);
       throw new Error("500:Internal Server Error");
     }
