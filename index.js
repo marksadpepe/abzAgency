@@ -1,6 +1,11 @@
 require("dotenv").config();
 const sql = require("./db.js");
 const models = require("./models/relations.js");
+const DataGenerator = require("./services/DataGenerator.js");
+
+(async () => {
+  await DataGenerator.generateDatabaseData();
+})();
 
 const startApp = async() => {
   try {
