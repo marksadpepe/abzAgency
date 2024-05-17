@@ -1,8 +1,10 @@
 require("dotenv").config();
 const sql = require("./db.js");
-const express = require("express");
 const models = require("./models/relations.js");
 const DataGenerator = require("./services/DataGenerator.js");
+
+const express = require("express");
+const positionRouter = require("./routes/Position.js");
 
 (async () => {
   await DataGenerator.generateDatabaseData();
@@ -11,6 +13,7 @@ const DataGenerator = require("./services/DataGenerator.js");
 const app = express();
 
 app.use(express.json());
+app.use(positionRouter);
 
 const startApp = async() => {
   try {
@@ -24,6 +27,10 @@ const startApp = async() => {
   } catch (err) {
     console.error("Failed to sync database: ", err);
   }
+
+  app.listen(process.env.APP_PORT, () => {
+    console.log(`\nServer is listening ${process.env.APP_PORT} port`);
+  });
 };
 
 startApp();
