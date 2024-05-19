@@ -8,10 +8,6 @@ const positionRouter = require("./routes/Position.js");
 const tokenRouter = require("./routes/Token.js");
 const userRouter = require("./routes/User.js");
 
-(async () => {
-  await DataGenerator.generateDatabaseData();
-})();
-
 const app = express();
 
 app.use(express.json());
@@ -28,6 +24,7 @@ const startApp = async() => {
 
   try {
     await sql.sync();
+    await DataGenerator.generateDatabaseData();
   } catch (err) {
     console.error("Failed to sync database:", err.message);
   }
