@@ -32,7 +32,6 @@ const User = sql.define("User",
   },
   {
     tableName: "users",
-    timestamps: false
   }
 );
 
