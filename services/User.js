@@ -22,8 +22,26 @@ class UserService {
       name, email, phone, positionId, photo
     });
     user.dataValues.position = position.name;
+    user.dataValues.createdAt = this.convertDateToTimestamp(user.dataValues.createdAt);
 
     return new UserDto(user);
+  }
+
+  async getUsers() {
+    const users = await UserModel.findAll();
+    if (!users) {
+      throw new Error("404:Users not found");
+    }
+
+    const usersData = [];
+    users.forEach(async(user) => {
+      const position = await PositionService.getPositionById(user.dataValues.positionId);
+      user.dataValues.position = position.name;
+      user.dataValues.createdAt = this.convertDateToTimestamp(user.dataValues.createdAt);
+      usersData.push(new UserDto(user));
+    });
+
+    return usersData;
   }
 
   async getUserById(userId) {
@@ -34,8 +52,14 @@ class UserService {
 
     const position = await PositionService.getPositionById(user.dataValues.positionId);
     user.dataValues.position = position.name;
+    user.dataValues.createdAt = this.convertDateToTimestamp(user.dataValues.createdAt);
 
     return new UserDto(user);
+  }
+
+  convertDateToTimestamp(dateString) { // maybe moved into another Service
+    const date = new Date(dateString);
+    return Math.floor(date.getTime() / 1000);
   }
 }
 
