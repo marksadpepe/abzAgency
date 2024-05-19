@@ -2,6 +2,19 @@ const PositionDto = require("../dtos/Position.js");
 const PositionModel = require("../models/position.js");
 
 class Position {
+  async createPosition(name) {
+    const candidate = await PositionModel.findOne({
+      where: {name: name}
+    });
+
+    if (candidate) {
+      throw new Error("409:Position with this name already exists");
+    }
+
+    const position = await PositionModel.create({name});
+    return new PositionDto(position);
+  }
+
   async getPositions() {
     try {
       const positions = await PositionModel.findAll();
@@ -14,6 +27,7 @@ class Position {
 
       return positionsData;
     } catch (err) {
+      // TODO: refactoring in required
       if (err.message.includes("404")) {
         throw new Error(err.message);
       }
