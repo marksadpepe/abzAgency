@@ -1,6 +1,6 @@
 const crypto = require("crypto");
-const PositionModel = require("../models/position.js");
-const UserModel = require("../models/user.js");
+const PositionService = require("./Position.js");
+const UserService = require("./User.js");
 const CharacterFetcher = require("./CharacterFetcher.js");
 
 class DataGenerator {
@@ -19,7 +19,7 @@ class DataGenerator {
     ];
 
     positions.forEach(async(positionName) => {
-      await PositionModel.create({name: positionName});
+      await PositionService.createPosition(positionName);
     });
   }
 
@@ -43,11 +43,7 @@ class DataGenerator {
       }
       const randomPositionId = crypto.randomInt(1, 11);
 
-      await UserModel.create({
-        name: character.name,
-        email, phone,
-        position_id: randomPositionId,
-      });
+      await UserService.createUser(character.name, email, phone, randomPositionId);
     }
   }
 }
