@@ -6,7 +6,7 @@ class File {
   getStorage() {
     const storage = multer.diskStorage({
       destination: function (req, file, cb) {
-        cb(null, "public/profilePics");
+        cb(null, "images/users");
       },
       filename: function (req, file, cb) {
         cb(null, Date.now() + path.extname(file.originalname));
