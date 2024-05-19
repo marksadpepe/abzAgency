@@ -1,5 +1,6 @@
 const path = require("path");
 const multer = require("multer");
+const sharp = require("sharp");
 
 class File {
   getStorage() {
@@ -35,6 +36,11 @@ class File {
     });
 
     return upload;
+  }
+
+  async getImageResolution(filePath) {
+    const metadata = await sharp(filePath).metadata();
+    return {width: metadata.width, height: metadata.height};
   }
 }
 
