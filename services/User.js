@@ -19,9 +19,7 @@ class UserService {
 
     const position = await PositionService.getPositionById(positionId);
     const user = await UserModel.create({
-      name, email, phone,
-      position_id: positionId,
-      photo
+      name, email, phone, positionId, photo
     });
     user.dataValues.position = position.name;
 
@@ -34,7 +32,7 @@ class UserService {
       throw new Error("404:User not found");
     }
 
-    const position = await PositionService.getPositionById(user.dataValues.position_id);
+    const position = await PositionService.getPositionById(user.dataValues.positionId);
     user.dataValues.position = position.name;
 
     return new UserDto(user);

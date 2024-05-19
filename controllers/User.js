@@ -26,8 +26,12 @@ class UserController {
       return res.status(200).json({
         success: true,
         user: {
-          id: user.id, name: user.name, email: user.email,
-          phone: user.phone, position: user.position, position_id: user.position_id,
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          phone: user.phone,
+          position: user.position,
+          position_id: user.positionId,
           photo: user.photo
         }
       });

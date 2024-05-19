@@ -4,7 +4,7 @@ module.exports = class UserDto {
   email;
   phone;
   position;
-  position_id;
+  positionId;
   photo;
 
   constructor(model) {
@@ -13,7 +13,7 @@ module.exports = class UserDto {
     this.email = model.dataValues.email;
     this.phone = model.dataValues.phone;
     this.position = model.dataValues.position;
-    this.position_id = model.dataValues.position_id;
+    this.positionId = model.dataValues.positionId;
     this.photo = model.dataValues.photo;
   }
 }
