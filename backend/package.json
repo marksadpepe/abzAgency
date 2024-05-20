@@ -4,6 +4,7 @@
   "description": "NodeJS Developer Test Assignment",
   "main": "index.js",
   "scripts": {
+    "prod": "node index.js",
     "dev": "nodemon index.js"
   },
   "repository": {
