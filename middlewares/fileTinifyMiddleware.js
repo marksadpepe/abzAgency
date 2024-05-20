@@ -1,6 +1,7 @@
 const path = require("path");
 const fs = require("fs");
 const FileService = require("../services/File.js");
+const TinifyService = require("../services/Tinify.js");
 
 module.exports = async function(req, res, next) {
   if (!req.file) {
@@ -30,6 +31,8 @@ module.exports = async function(req, res, next) {
     });
   }
 
+  TinifyService.compressAndResizeImage(fileFullPath, fileFullPath);
   req.file.path = fileFullPath;
+
   next();
 }
