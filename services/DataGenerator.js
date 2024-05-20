@@ -1,6 +1,6 @@
 const crypto = require("crypto");
-const PositionModel = require("../models/position.js");
-const UserModel = require("../models/user.js");
+const PositionService = require("./Position.js");
+const UserService = require("./User.js");
 const CharacterFetcher = require("./CharacterFetcher.js");
 
 class DataGenerator {
@@ -10,7 +10,6 @@ class DataGenerator {
   }
 
   async generatePositions() {
-    console.log("---- Generating Positions ----");
     const positions = [
       "Lawyer", "UI/UX Designer",
       "Software Engineer (Golang)", "Writer",
@@ -19,18 +18,24 @@ class DataGenerator {
       "Paramedic", "Architect"
     ];
 
-    positions.forEach(async(positionName) => {
-      await PositionModel.create({name: positionName});
-    });
+    for (const positionName of positions) {
+      await PositionService.createPosition(positionName);
+    }
   }
 
   async generateUsers() {
-    console.log("---- Generating Users ----");
     for (let i = 1; i < 46; i++) {
+      let chName = "";
       const character = await CharacterFetcher.fetchCharater(i);
-
       const splittedName = character.name.toLowerCase().split(" ");
-      const email = splittedName[0] + splittedName[1][0] + "@mail.com";
+      
+      if (splittedName.length > 1) {
+        chName = splittedName[0] + splittedName[1][0];
+      } else {
+        chName = splittedName[0] + splittedName[0][0]
+      }
+
+      const email = chName + i + "@mail.com";
       let phone = "+380";
       for (let j = 1; j < 10; j++) {
         const randomNumber = crypto.randomInt(1, 10);
@@ -38,12 +43,7 @@ class DataGenerator {
       }
       const randomPositionId = crypto.randomInt(1, 11);
 
-      await UserModel.create({
-        name: character.name,
-        email, phone,
-        position_id: randomPositionId,
-        photo: `${character.name.replace(" ", "")}ProfilePic.jpg`
-      });
+      await UserService.createUser(character.name, email, phone, randomPositionId);
     }
   }
 }

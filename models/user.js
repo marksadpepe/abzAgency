@@ -17,7 +17,7 @@ const User = sql.define("User",
       allowNull: false,
       unique: true,
     },
-    position_id: {
+    positionId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
@@ -27,12 +27,11 @@ const User = sql.define("User",
     },
     photo: {
       type: DataTypes.STRING,
-      defaultValue: "defaultProfilePic.jpg"
+      defaultValue: "default.jpg"
     }
   },
   {
     tableName: "users",
-    timestamps: false
   }
 );
 
