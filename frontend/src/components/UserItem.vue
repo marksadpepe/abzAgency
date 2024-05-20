@@ -7,17 +7,19 @@
             <div><strong>Phone</strong>: {{user.phone }}</div>
         </div>
         <div class="userBtns">
-            <div><buttonc @click="$router.push(`/users/${user.id}`)" id="showUserPageBtn">Show Page</buttonc></div>
-            <div><buttonc @click="showDialog" id="showUserDialogBtn">Show Dialog</buttonc></div>
-            <div><buttonc id="deleteUserBtn">Delete</buttonc></div>
+            <div><buttonc @click="showDialog" id="showUserDialogBtn">Show More</buttonc></div>
         </div>
         <user-dialog v-model:show="dialogVisible">
             <h2>User Information</h2>
             <div id="userIdInfo" class="userInfo"><strong>ID</strong>: {{ user.id }}</div>
             <div class="userInfo"><strong>Name</strong>: {{ user.name }}</div>
             <div class="userInfo"><strong>Email</strong>: {{ user.email }}</div>
-            <div class="userInfo"><strong>Phone</strong>: {{user.phone }}</div>
-            <div class="userInfo"><strong>Position ID</strong>: {{user.positionId }}</div>
+            <div class="userInfo"><strong>Phone</strong>: {{ user.phone }}</div>
+            <div class="userInfo"><strong>Position</strong>: {{ user.position }}</div>
+            <div class="userInfo"><strong>Position ID</strong>: {{ user.position_id }}</div>
+            <div class="userInfo">
+                <img :src="imageUrl" :alt="user.name" width="80" height="80">
+            </div>
         </user-dialog>
     </div>
 </template>
@@ -26,7 +28,8 @@
 export default {
     data() {
         return {
-            dialogVisible: false
+            dialogVisible: false,
+            imageUrl: ""
         }
     },
     props: {
@@ -38,7 +41,13 @@ export default {
     methods: {
         showDialog() {
             this.dialogVisible = true;
+        },
+        loadImage() {
+            this.imageUrl = `http://localhost:4000/${this.user.photo}`;
         }
+    },
+    mounted() {
+        this.loadImage();
     }
 }
 </script>

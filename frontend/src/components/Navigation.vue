@@ -3,7 +3,6 @@
         <div @click="$router.push('/')" class="homeNavBtn">AbzAgency</div>
         <div class="navBtns">
             <buttonc class="usersRouteBtn" @click="$router.push('/users')">Users</buttonc>
-            <buttonc class="positionsRouteBtn">Positions</buttonc>
         </div>
     </div>
 </template>
@@ -26,7 +25,7 @@
     padding: 0 14px;
 }
 
-.usersRouteBtn, .positionsRouteBtn {
+.usersRouteBtn {
     border: none;
     font-weight: normal;
     font-size: 18px;

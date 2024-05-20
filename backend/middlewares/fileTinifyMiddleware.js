@@ -32,7 +32,7 @@ module.exports = async function(req, res, next) {
   }
 
   TinifyService.compressAndResizeImage(fileFullPath, fileFullPath);
-  //req.file.path = fileFullPath;
+  req.file.path = req.file.path.replace("public", "");
 
   next();
 }

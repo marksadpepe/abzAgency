@@ -3,7 +3,7 @@ module.exports = function(req, res, next) {
     name: ["The name must be at least 2 characters and up to 60 characters"],
     email: ["The email must be a valid email address"],
     phone: ["The phone field is required"],
-    position_id: ["The position id must be an integer"],
+    position_id: ["The position ID must be an integer"],
   };
 
   if (!req.body) {
@@ -45,7 +45,7 @@ module.exports = function(req, res, next) {
       success: false,
       message: "Validation failed",
       fails: {
-        phone: "The phone number should be 13 characters long and should start wich code of Ukraine +380"
+        phone: ["The phone number should be 13 characters long and should start wich code of Ukraine +380"]
       }
     });
   }

@@ -3,7 +3,7 @@
         <buttonc class="createUserBtn" @click="showDialog">Create a new user</buttonc>
     </div>
     <user-dialog v-model:show="dialogVisible">
-        <user-form @create="createUser"></user-form>
+        <user-form :createUserErr="createUserErr" @create="createUser" ref="userForm"></user-form>
     </user-dialog>
     <div>
         <buttonc class="fetchUsersBtn" @click="fetchUsers">Click here to get users</buttonc>
@@ -43,11 +43,12 @@ export default {
         return {
             users: [],
             page: 1,
-            count: 2,
+            count: 6,
             offset: 0,
             totalPages: 0,
             placeholderValue: "Jot user email down",
             pageNotFoundErr: "",
+            createUserErr: "",
             userSearchQuery: "",
             dialogVisible: false
         }
@@ -67,27 +68,34 @@ export default {
         },
         async createUser(user) {
             try {
-                console.log($route);
                 const tokenRes = await fetch("http://localhost:4000/api/v1/token");
                 const {token} = await tokenRes.json();
-                const {name, email, phone, position} = user;
-                const userData = {
-                    name, email, phone,
-                    positionId: position,
-                    photo: `${name}.jpg`
-                };
+
+                const formData = new FormData();
+                formData.append("name", user.name);
+                formData.append("email", user.email);
+                formData.append("phone", user.phone);
+                formData.append("position_id", user.position);
+                formData.append("profilePic", user.file);
 
                 const res = await fetch("http://localhost:4000/api/v1/users", {
                     method: "POST",
                     headers: {
-                        Token: token.token,
-                        "Content-Type": "application/json"
+                        Token: token,
                     },
-                    body: JSON.stringify(userData)
+                    body: formData
                 });
                 const data = await res.json();
-                this.dialogVisible = false;
-                this.fetchUsers();
+                if (data.success) {
+                    this.dialogVisible = false;
+                } else {
+                    this.$refs.userForm.clearFileInput();
+                    if (data.fails) {
+                        this.createUserErr = Object.values(data.fails)[0][0];
+                    } else {
+                        this.createUserErr = data.message;
+                    }
+                }
             } catch (err) {
                 console.error(err);
             }
@@ -102,7 +110,7 @@ export default {
                 const data = await res.json();
                 if (data.success) {
                     this.users = data.users;
-                    this.totalPages = data.totalPages;
+                    this.totalPages = data["total_pages"];
                 } else {
                     this.users = [];
                     this.pageNotFoundErr = data.message;
