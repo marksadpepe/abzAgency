@@ -23,7 +23,8 @@
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.37.3",
     "sharp": "^0.33.4",
-    "sqlite3": "^5.1.7"
+    "sqlite3": "^5.1.7",
+    "tinify": "^1.7.1"
   },
   "devDependencies": {
     "dotenv": "^16.4.5",

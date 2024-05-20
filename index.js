@@ -11,9 +11,9 @@ const userRouter = require("./routes/User.js");
 const app = express();
 
 app.use(express.json());
-app.use(positionRouter);
-app.use(tokenRouter);
-app.use(userRouter);
+app.use("/api/v1", positionRouter);
+app.use("/api/v1", tokenRouter);
+app.use("/api/v1", userRouter);
 
 const startApp = async() => {
   try {

@@ -10,7 +10,7 @@ module.exports = function(req, res, next) {
   if (!Number(userId)) {
     return res.status(400).json({
       success: false,
-      message: "The user with the requestedid does not exist",
+      message: "The user with the requested ID does not exist",
       fails: {
         userId: [
           "The user must be an integer"
