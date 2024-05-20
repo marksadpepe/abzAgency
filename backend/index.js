@@ -11,6 +11,7 @@ const userRouter = require("./routes/User.js");
 const app = express();
 
 app.use(express.json());
+app.use(express.static("public"));
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", process.env.FRONTEND_URL);
   res.header("Access-Control-Allow-Methods", "GET, POST");
