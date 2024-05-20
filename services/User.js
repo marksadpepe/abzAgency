@@ -1,7 +1,10 @@
 const fs = require("fs");
+const path = require("path");
 const UserDto = require("../dtos/User.js");
 const UserModel = require("../models/user.js");
 const PositionService = require("./Position.js");
+const PaginationService = require("./Pagination.js");
+const LinkService = require("../services/Link.js");
 
 class UserService {
   async createUser(name, email, phone, positionId, photo) {
@@ -21,10 +24,25 @@ class UserService {
     const user = await UserModel.create({
       name, email, phone, positionId, photo
     });
+
     user.dataValues.position = position.name;
     user.dataValues.createdAt = this.convertDateToTimestamp(user.dataValues.createdAt);
+    user.dataValues.updatedAt = this.convertDateToTimestamp(user.dataValues.updatedAt);
 
     return new UserDto(user);
+  }
+
+  async getPaginatedUsers(page, count) {
+    const users = await this.getUsers();
+    const {entities, totalPages} = PaginationService.getPaginatedEntities(page, count, users);
+    const {prevLink, nextLink} = LinkService.generateLinks(page, count, totalPages);
+
+    return {
+      users: entities[page - 1],
+      totalPages,
+      totalUsers: users.length,
+      prevLink, nextLink
+    }
   }
 
   async getUsers() {
@@ -33,14 +51,20 @@ class UserService {
       throw new Error("404:Users not found");
     }
 
-    const usersData = [];
-    users.forEach(async(user) => {
+    const usersDataPromises = users.map(async(user) => {
       const position = await PositionService.getPositionById(user.dataValues.positionId);
+
+      if (user.dataValues.photo.includes("default")) {
+        user.dataValues.photo = path.join(process.env.DIRNAME, "images/users", user.dataValues.photo);
+      }
       user.dataValues.position = position.name;
       user.dataValues.createdAt = this.convertDateToTimestamp(user.dataValues.createdAt);
-      usersData.push(new UserDto(user));
+      user.dataValues.updatedAt = this.convertDateToTimestamp(user.dataValues.updatedAt);
+      
+      return new UserDto(user);
     });
 
+    const usersData = await Promise.all(usersDataPromises);
     return usersData;
   }
 
@@ -53,6 +77,7 @@ class UserService {
     const position = await PositionService.getPositionById(user.dataValues.positionId);
     user.dataValues.position = position.name;
     user.dataValues.createdAt = this.convertDateToTimestamp(user.dataValues.createdAt);
+    user.dataValues.updatedAt = this.convertDateToTimestamp(user.dataValues.updatedAt);
 
     return new UserDto(user);
   }
