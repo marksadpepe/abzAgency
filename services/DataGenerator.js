@@ -18,9 +18,9 @@ class DataGenerator {
       "Paramedic", "Architect"
     ];
 
-    positions.forEach(async(positionName) => {
+    for (const positionName of positions) {
       await PositionService.createPosition(positionName);
-    });
+    }
   }
 
   async generateUsers() {
