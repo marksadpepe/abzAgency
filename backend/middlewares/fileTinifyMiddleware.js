@@ -12,7 +12,7 @@ module.exports = async function(req, res, next) {
     });
   }
 
-  const fileFullPath = path.join(process.env.DIRNAME, req.file.path);
+  const fileFullPath = path.resolve(req.file.path);
   if (!fs.existsSync(fileFullPath)) {
     console.error(`File ${fileFullPath} does not exists`);
     return res.status(500).json({
@@ -32,7 +32,7 @@ module.exports = async function(req, res, next) {
   }
 
   TinifyService.compressAndResizeImage(fileFullPath, fileFullPath);
-  req.file.path = fileFullPath;
+  //req.file.path = fileFullPath;
 
   next();
 }

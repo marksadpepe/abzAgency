@@ -55,7 +55,7 @@ class UserService {
       const position = await PositionService.getPositionById(user.dataValues.positionId);
 
       if (user.dataValues.photo.includes("default")) {
-        user.dataValues.photo = path.join(process.env.DIRNAME, "images/users", user.dataValues.photo);
+        user.dataValues.photo = path.join(process.env.IMAGES_DIRNAME, user.dataValues.photo);
       }
       user.dataValues.position = position.name;
       user.dataValues.createdAt = this.convertDateToTimestamp(user.dataValues.createdAt);
@@ -77,7 +77,7 @@ class UserService {
     const position = await PositionService.getPositionById(user.dataValues.positionId);
     user.dataValues.position = position.name;
     if (user.dataValues.photo.includes("default")) {
-      user.dataValues.photo = path.join(process.env.DIRNAME, "images/users", user.dataValues.photo);
+      user.dataValues.photo = path.join(process.env.IMAGES_DIRNAME, user.dataValues.photo);
     }
     user.dataValues.createdAt = this.convertDateToTimestamp(user.dataValues.createdAt);
     user.dataValues.updatedAt = this.convertDateToTimestamp(user.dataValues.updatedAt);
