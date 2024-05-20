@@ -7,6 +7,7 @@ module.exports = class UserDto {
   positionId;
   photo;
   createdAt;
+  updatedAt;
 
   constructor(model) {
     this.id = model.dataValues.id;
@@ -17,5 +18,6 @@ module.exports = class UserDto {
     this.positionId = model.dataValues.positionId;
     this.photo = model.dataValues.photo;
     this.createdAt = model.dataValues.createdAt;
+    this.updatedAt = model.dataValues.updatedAt;
   }
 }
