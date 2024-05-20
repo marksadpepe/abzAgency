@@ -3,6 +3,14 @@ const fs = require("fs");
 const FileService = require("../services/File.js");
 
 module.exports = async function(req, res, next) {
+  if (!req.file) {
+    return res.status(422).json({
+      success: false,
+      message: "Validation failed",
+      fails: {photo: "The photo may not be greater than 5 Mbytes"}
+    });
+  }
+
   const fileFullPath = path.join(process.env.DIRNAME, req.file.path);
   if (!fs.existsSync(fileFullPath)) {
     console.error(`File ${fileFullPath} does not exists`);
