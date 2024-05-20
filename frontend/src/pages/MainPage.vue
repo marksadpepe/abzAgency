@@ -1,6 +1,5 @@
 <template>
     <div class="mainContent">
-        <p>Welcome</p>
     </div>
 </template>
 

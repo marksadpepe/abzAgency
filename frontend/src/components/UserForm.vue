@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent>
+    <form @submit.prevent method="POST" enctype="multipart/form-data">
         <h2>Create user form</h2>
         <inputc class="userNameField" type="text" placeholder="Name"
         v-model="user.name"></inputc>
@@ -7,28 +7,42 @@
         v-model="user.email"></inputc>
         <inputc class="userPhoneField" type="text" placeholder="Phone number"
         v-model="user.phone"></inputc>
-        <inputc class="userPositionField" type="text" placeholder="Position name"
+        <inputc class="userPositionField" type="text" placeholder="Position ID"
         v-model="user.position"></inputc>
+        <input type="file" name="profilePic" id="file" v-on:change="onFileChange" ref="fileInput">
+        <h4 v-if="createUserErr" style="color: red;">{{ createUserErr }}</h4>
         <buttonc class="userCreateBtn" @click="createUser">Submit</buttonc>
     </form>
 </template>
 
 <script>
 export default {
+    props: {
+        createUserErr: {
+            type: String, required: false
+        }
+    },
     data() {
         return {
             user: {
                 name: "",
                 email: "",
                 phone: "",
-                position: ""
+                position: "",
+                file: null
             }
         }
     },
     methods: {
+        onFileChange(event) {
+            this.user.file = event.target.files[0];
+        },
         createUser() {
             this.$emit("create", this.user);
-            this.user = {name: "", email: "", phone: "", position: ""};
+            this.user = {name: "", email: "", phone: "", position: "", file: null};
+        },
+        clearFileInput() {
+            this.$refs.fileInput.value = "";
         }
     }
 }
@@ -43,6 +57,21 @@ form {
 
 h2 {
     font-size: 28px;
+}
+
+#file {
+    background: none;
+    outline: none;
+    border: 1px solid black;
+    padding: 4px 4px;
+    font-size: 18px;
+    width: 200px;
+    cursor: pointer;
+    margin-top: 14px;
+    padding: 6px 8px;
+    border-radius: 10px;
+    font-size: 18px;
+    width: 400px;
 }
 
 .userNameField,
